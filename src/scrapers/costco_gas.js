@@ -1,6 +1,15 @@
 import * as fs from 'fs';
 import * as cheerio from "cheerio";
+import 'dotenv/config';
+import { drizzle } from 'drizzle-orm/node-postgres';
 
+const WEBSITE_URL = 'https://aruljohn.com/gas/ca';
+const TEST_URL = undefined//'./src/scrapers/test_costco_prices.htm'
+const GAS_MAPPINGS = {
+    regular: 0,
+    premium: 1,
+    diesel: 2
+};
 
 // given row, and the column index of table
 // return gas price or null if not present
@@ -15,10 +24,9 @@ function findGas(row, index){
     return gas;
 }
 
-const WEBSITE_URL = 'https://aruljohn.com/gas/ca';
-const TEST_URL = undefined//'./test_costco_prices.htm'
 
-var web_page = null;
+
+
 var $ = null;
 
 if(TEST_URL){
@@ -29,6 +37,10 @@ if(TEST_URL){
 else {
     $ = await cheerio.fromURL(WEBSITE_URL);
 }
+
+var locations = [];
+
+var prices = [];
 
 //console.log($('content-table'))
 $('table.content-table tbody tr').each((i, row) => {
@@ -44,14 +56,30 @@ $('table.content-table tbody tr').each((i, row) => {
 
         let [state, zip] = cityState[1].trim().split(" ");
 
+        locations.push({
+            street: street,
+            city: city,
+            state: state,
+            name: locationName,
+            zip: zip
+        });
 
         console.log(locationName, street, city, state, zip);
 
-        let regular = findGas(row, 0);
-        let premium = findGas(row, 1);
-        let diesel = findGas(row, 2);
-
-        console.log(regular, premium, diesel);
+        Object.keys(GAS_MAPPINGS).forEach((gasType) => {
+            let price = findGas(row, GAS_MAPPINGS[gasType]);
+            if(price){
+                prices.push({
+                    street: street,
+                    city: city,
+                    state: state,
+                    gas_type: gasType,
+                    price: price
+                });
+                console.log(gasType, price);
+            }
+        });
+        console.log(prices);
     }
 
 

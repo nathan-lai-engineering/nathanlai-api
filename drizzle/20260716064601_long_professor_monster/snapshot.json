@@ -1,0 +1,1296 @@
+{
+  "dialect": "postgres",
+  "id": "2dd2406a-cfce-4cac-9058-57a78dd2c2b6",
+  "prevIds": [
+    "00000000-0000-0000-0000-000000000000"
+  ],
+  "version": "8",
+  "ddl": [
+    {
+      "name": "costco",
+      "entityType": "schemas"
+    },
+    {
+      "name": "riot",
+      "entityType": "schemas"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "costco_locations",
+      "entityType": "tables",
+      "schema": "costco"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "gas_prices",
+      "entityType": "tables",
+      "schema": "costco"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "api_keys",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "discord_accounts",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "guilds",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "notification_channels",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "notification_members",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "notification_types",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "outros",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "games",
+      "entityType": "tables",
+      "schema": "riot"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "puuids",
+      "entityType": "tables",
+      "schema": "riot"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "ranks",
+      "entityType": "tables",
+      "schema": "riot"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "riot_accounts",
+      "entityType": "tables",
+      "schema": "riot"
+    },
+    {
+      "type": "varchar(19)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "guild_id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "guilds"
+    },
+    {
+      "type": "varchar(64)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "source",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "api_keys"
+    },
+    {
+      "type": "varchar(128)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "street",
+      "entityType": "columns",
+      "schema": "costco",
+      "table": "costco_locations"
+    },
+    {
+      "type": "varchar(128)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "street",
+      "entityType": "columns",
+      "schema": "costco",
+      "table": "gas_prices"
+    },
+    {
+      "type": "varchar(32)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "notification_type",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "notification_types"
+    },
+    {
+      "type": "varchar(20)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "gamemode",
+      "entityType": "columns",
+      "schema": "riot",
+      "table": "ranks"
+    },
+    {
+      "type": "varchar(19)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "guild_id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "notification_channels"
+    },
+    {
+      "type": "varchar(16)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "game",
+      "entityType": "columns",
+      "schema": "riot",
+      "table": "games"
+    },
+    {
+      "type": "varchar(16)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "riot_id",
+      "entityType": "columns",
+      "schema": "riot",
+      "table": "puuids"
+    },
+    {
+      "type": "varchar(19)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "discord_id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "discord_accounts"
+    },
+    {
+      "type": "varchar(19)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "guild_id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "notification_members"
+    },
+    {
+      "type": "varchar(16)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "riot_id",
+      "entityType": "columns",
+      "schema": "riot",
+      "table": "riot_accounts"
+    },
+    {
+      "type": "varchar(19)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "discord_id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "outros"
+    },
+    {
+      "type": "varchar(128)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "url",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "outros"
+    },
+    {
+      "type": "varchar(128)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "key_string",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "api_keys"
+    },
+    {
+      "type": "varchar(32)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "notification_type",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "notification_channels"
+    },
+    {
+      "type": "boolean",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "admin",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "discord_accounts"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "identity": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "schema": "riot",
+      "table": "games"
+    },
+    {
+      "type": "varchar(64)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "city",
+      "entityType": "columns",
+      "schema": "costco",
+      "table": "costco_locations"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "identity": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "guilds"
+    },
+    {
+      "type": "varchar(64)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "city",
+      "entityType": "columns",
+      "schema": "costco",
+      "table": "gas_prices"
+    },
+    {
+      "type": "varchar(32)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "notification_type",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "notification_members"
+    },
+    {
+      "type": "varchar(5)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "riot_tag",
+      "entityType": "columns",
+      "schema": "riot",
+      "table": "puuids"
+    },
+    {
+      "type": "varchar(78)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "puuid",
+      "entityType": "columns",
+      "schema": "riot",
+      "table": "ranks"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "identity": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "notification_types"
+    },
+    {
+      "type": "varchar(5)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "riot_tag",
+      "entityType": "columns",
+      "schema": "riot",
+      "table": "riot_accounts"
+    },
+    {
+      "type": "varchar(19)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "discord_id",
+      "entityType": "columns",
+      "schema": "riot",
+      "table": "riot_accounts"
+    },
+    {
+      "type": "varchar(16)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "game",
+      "entityType": "columns",
+      "schema": "riot",
+      "table": "puuids"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "deleted_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "guilds"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "deleted_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "notification_types"
+    },
+    {
+      "type": "varchar(19)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "channel_id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "notification_channels"
+    },
+    {
+      "type": "varchar(32)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "summoner_name",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "discord_accounts"
+    },
+    {
+      "type": "varchar(19)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "discord_id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "notification_members"
+    },
+    {
+      "type": "smallint",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": "0",
+      "generated": null,
+      "identity": null,
+      "name": "start_time",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "outros"
+    },
+    {
+      "type": "varchar(2)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "state",
+      "entityType": "columns",
+      "schema": "costco",
+      "table": "costco_locations"
+    },
+    {
+      "type": "varchar(16)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "game",
+      "entityType": "columns",
+      "schema": "riot",
+      "table": "ranks"
+    },
+    {
+      "type": "varchar(2)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "state",
+      "entityType": "columns",
+      "schema": "costco",
+      "table": "gas_prices"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "deleted_at",
+      "entityType": "columns",
+      "schema": "riot",
+      "table": "games"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "identity": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "notification_members"
+    },
+    {
+      "type": "varchar(32)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "name",
+      "entityType": "columns",
+      "schema": "costco",
+      "table": "costco_locations"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "identity": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "schema": "riot",
+      "table": "riot_accounts"
+    },
+    {
+      "type": "smallint",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "birth_month",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "discord_accounts"
+    },
+    {
+      "type": "varchar(78)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "puuid",
+      "entityType": "columns",
+      "schema": "riot",
+      "table": "puuids"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "identity": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "notification_channels"
+    },
+    {
+      "type": "smallint",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": "0",
+      "generated": null,
+      "identity": null,
+      "name": "duration",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "outros"
+    },
+    {
+      "type": "varchar(16)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "tier",
+      "entityType": "columns",
+      "schema": "riot",
+      "table": "ranks"
+    },
+    {
+      "type": "varchar(16)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "gas_type",
+      "entityType": "columns",
+      "schema": "costco",
+      "table": "gas_prices"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "identity": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "schema": "riot",
+      "table": "puuids"
+    },
+    {
+      "type": "date",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "create_date",
+      "entityType": "columns",
+      "schema": "costco",
+      "table": "gas_prices"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "identity": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "outros"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "deleted_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "notification_members"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "identity": null,
+      "name": "updated_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "notification_channels"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "identity": null,
+      "name": "updated_at",
+      "entityType": "columns",
+      "schema": "riot",
+      "table": "riot_accounts"
+    },
+    {
+      "type": "varchar(3)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "tier_rank",
+      "entityType": "columns",
+      "schema": "riot",
+      "table": "ranks"
+    },
+    {
+      "type": "smallint",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "birth_day",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "discord_accounts"
+    },
+    {
+      "type": "varchar(10)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "zip",
+      "entityType": "columns",
+      "schema": "costco",
+      "table": "costco_locations"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "identity": null,
+      "name": "updated_at",
+      "entityType": "columns",
+      "schema": "riot",
+      "table": "puuids"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "identity": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "discord_accounts"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "deleted_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "notification_channels"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "updated_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "outros"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "schema": "costco",
+      "table": "costco_locations"
+    },
+    {
+      "type": "numeric(4,2)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "price",
+      "entityType": "columns",
+      "schema": "costco",
+      "table": "gas_prices"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "deleted_at",
+      "entityType": "columns",
+      "schema": "riot",
+      "table": "riot_accounts"
+    },
+    {
+      "type": "smallint",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "league_points",
+      "entityType": "columns",
+      "schema": "riot",
+      "table": "ranks"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "updated_at",
+      "entityType": "columns",
+      "schema": "costco",
+      "table": "costco_locations"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "identity": null,
+      "name": "updated_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "discord_accounts"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "identity": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "schema": "riot",
+      "table": "ranks"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "deleted_at",
+      "entityType": "columns",
+      "schema": "riot",
+      "table": "puuids"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "deleted_at",
+      "entityType": "columns",
+      "schema": "costco",
+      "table": "costco_locations"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "identity": null,
+      "name": "updated_at",
+      "entityType": "columns",
+      "schema": "riot",
+      "table": "ranks"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        "guild_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "guilds",
+      "columnsTo": [
+        "guild_id"
+      ],
+      "onUpdate": "CASCADE",
+      "onDelete": "NO ACTION",
+      "name": "fk_notification_channels_1",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "notification_channels"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        "notification_type"
+      ],
+      "schemaTo": "public",
+      "tableTo": "notification_types",
+      "columnsTo": [
+        "notification_type"
+      ],
+      "onUpdate": "CASCADE",
+      "onDelete": "NO ACTION",
+      "name": "fk_notification_channels_2",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "notification_channels"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        "guild_id",
+        "notification_type"
+      ],
+      "schemaTo": "public",
+      "tableTo": "notification_channels",
+      "columnsTo": [
+        "guild_id",
+        "notification_type"
+      ],
+      "onUpdate": "CASCADE",
+      "onDelete": "NO ACTION",
+      "name": "fk_notification_members_1",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "notification_members"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        "discord_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "discord_accounts",
+      "columnsTo": [
+        "discord_id"
+      ],
+      "onUpdate": "CASCADE",
+      "onDelete": "NO ACTION",
+      "name": "fk_notification_members_2",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "notification_members"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        "discord_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "discord_accounts",
+      "columnsTo": [
+        "discord_id"
+      ],
+      "onUpdate": "CASCADE",
+      "onDelete": "NO ACTION",
+      "name": "fk_outros",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "outros"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        "discord_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "discord_accounts",
+      "columnsTo": [
+        "discord_id"
+      ],
+      "onUpdate": "CASCADE",
+      "onDelete": "NO ACTION",
+      "name": "fk_riot_accounts",
+      "entityType": "fks",
+      "schema": "riot",
+      "table": "riot_accounts"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        "riot_id",
+        "riot_tag"
+      ],
+      "schemaTo": "riot",
+      "tableTo": "riot_accounts",
+      "columnsTo": [
+        "riot_id",
+        "riot_tag"
+      ],
+      "onUpdate": "CASCADE",
+      "onDelete": "NO ACTION",
+      "name": "fk_puuids_1",
+      "entityType": "fks",
+      "schema": "riot",
+      "table": "puuids"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        "game"
+      ],
+      "schemaTo": "riot",
+      "tableTo": "games",
+      "columnsTo": [
+        "game"
+      ],
+      "onUpdate": "CASCADE",
+      "onDelete": "NO ACTION",
+      "name": "fk_puuids_2",
+      "entityType": "fks",
+      "schema": "riot",
+      "table": "puuids"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        "puuid",
+        "game"
+      ],
+      "schemaTo": "riot",
+      "tableTo": "puuids",
+      "columnsTo": [
+        "puuid",
+        "game"
+      ],
+      "onUpdate": "CASCADE",
+      "onDelete": "NO ACTION",
+      "name": "fk_ranks",
+      "entityType": "fks",
+      "schema": "riot",
+      "table": "ranks"
+    },
+    {
+      "columns": [
+        "discord_id"
+      ],
+      "nameExplicit": true,
+      "name": "discord_accounts_pkey",
+      "entityType": "pks",
+      "schema": "public",
+      "table": "discord_accounts"
+    },
+    {
+      "columns": [
+        "guild_id"
+      ],
+      "nameExplicit": true,
+      "name": "guilds_pkey",
+      "entityType": "pks",
+      "schema": "public",
+      "table": "guilds"
+    },
+    {
+      "columns": [
+        "notification_type"
+      ],
+      "nameExplicit": true,
+      "name": "notification_types_pkey",
+      "entityType": "pks",
+      "schema": "public",
+      "table": "notification_types"
+    },
+    {
+      "columns": [
+        "guild_id",
+        "notification_type"
+      ],
+      "nameExplicit": true,
+      "name": "pk_notification_channels",
+      "entityType": "pks",
+      "schema": "public",
+      "table": "notification_channels"
+    },
+    {
+      "columns": [
+        "guild_id",
+        "notification_type",
+        "discord_id"
+      ],
+      "nameExplicit": true,
+      "name": "pk_notification_members",
+      "entityType": "pks",
+      "schema": "public",
+      "table": "notification_members"
+    },
+    {
+      "columns": [
+        "discord_id"
+      ],
+      "nameExplicit": true,
+      "name": "outros_pkey",
+      "entityType": "pks",
+      "schema": "public",
+      "table": "outros"
+    },
+    {
+      "columns": [
+        "source"
+      ],
+      "nameExplicit": true,
+      "name": "api_keys_pkey",
+      "entityType": "pks",
+      "schema": "public",
+      "table": "api_keys"
+    },
+    {
+      "columns": [
+        "riot_id",
+        "riot_tag"
+      ],
+      "nameExplicit": true,
+      "name": "pk_riot_accounts",
+      "entityType": "pks",
+      "schema": "riot",
+      "table": "riot_accounts"
+    },
+    {
+      "columns": [
+        "game"
+      ],
+      "nameExplicit": true,
+      "name": "games_pkey",
+      "entityType": "pks",
+      "schema": "riot",
+      "table": "games"
+    },
+    {
+      "columns": [
+        "riot_id",
+        "riot_tag",
+        "game"
+      ],
+      "nameExplicit": true,
+      "name": "pk_puuids",
+      "entityType": "pks",
+      "schema": "riot",
+      "table": "puuids"
+    },
+    {
+      "columns": [
+        "gamemode",
+        "puuid",
+        "game"
+      ],
+      "nameExplicit": true,
+      "name": "pk_ranks",
+      "entityType": "pks",
+      "schema": "riot",
+      "table": "ranks"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        "game",
+        "puuid"
+      ],
+      "nullsNotDistinct": false,
+      "name": "ck_puuids",
+      "entityType": "uniques",
+      "schema": "riot",
+      "table": "puuids"
+    }
+  ],
+  "renames": []
+}
