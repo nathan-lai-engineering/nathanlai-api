@@ -6,24 +6,33 @@ export const riot = pgSchema("riot");
 
 
 export const costcoLocationsInCostco = costco.table("costco_locations", {
-	street: varchar({ length: 128 }),
-	city: varchar({ length: 64 }),
-	state: varchar({ length: 2 }),
+	street: varchar({ length: 128 }).notNull(),
+	city: varchar({ length: 64 }).notNull(),
+	state: varchar({ length: 2 }).notNull(),
 	name: varchar({ length: 32 }),
 	zip: varchar({ length: 10 }),
-	createdAt: timestamp("created_at"),
-	updatedAt: timestamp("updated_at"),
+	createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
+	updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`),
 	deletedAt: timestamp("deleted_at"),
-});
+}, (table) => [
+	primaryKey({ columns: [table.street, table.city, table.state], name: "pk_costco_locations"}),
+]);
 
 export const gasPricesInCostco = costco.table("gas_prices", {
-	street: varchar({ length: 128 }),
-	city: varchar({ length: 64 }),
-	state: varchar({ length: 2 }),
-	gasType: varchar("gas_type", { length: 16 }),
-	createDate: date("create_date"),
+	street: varchar({ length: 128 }).notNull(),
+	city: varchar({ length: 64 }).notNull(),
+	state: varchar({ length: 2 }).notNull(),
+	gasType: varchar("gas_type", { length: 16 }).notNull(),
+	createDate: date("create_date").default(sql`CURRENT_DATE`).notNull(),
 	price: numeric({ precision: 4, scale: 2 }),
-});
+}, (table) => [
+	primaryKey({ columns: [table.street, table.city, table.state, table.gasType, table.createDate], name: "pk_costco_prices"}),
+	foreignKey({
+		columns: [table.street, table.city, table.state],
+		foreignColumns: [costcoLocationsInCostco.street, costcoLocationsInCostco.city, costcoLocationsInCostco.state],
+		name: "fk_costco_prices"
+	}).onUpdate("cascade").onDelete("cascade"),
+]);
 
 export const apiKeys = pgTable("api_keys", {
 	source: varchar({ length: 64 }).primaryKey(),

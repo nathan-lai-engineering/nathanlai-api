@@ -2,6 +2,15 @@ import { defineRelations } from "drizzle-orm";
 import * as schema from "./schema";
 
 export const relations = defineRelations(schema, (r) => ({
+	gasPricesInCostco: {
+		costcoLocationsInCostco: r.one.costcoLocationsInCostco({
+			from: [r.gasPricesInCostco.street, r.gasPricesInCostco.city, r.gasPricesInCostco.state],
+			to: [r.costcoLocationsInCostco.street, r.costcoLocationsInCostco.city, r.costcoLocationsInCostco.state]
+		}),
+	},
+	costcoLocationsInCostco: {
+		gasPricesInCostcos: r.many.gasPricesInCostco(),
+	},
 	guilds: {
 		notificationTypes: r.many.notificationTypes({
 			from: r.guilds.guildId.through(r.notificationChannels.guildId),
