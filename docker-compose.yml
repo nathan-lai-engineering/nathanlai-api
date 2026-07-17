@@ -1,6 +1,6 @@
 services:
   costco-gas-scraper:
     build: .
-    restart: "no"
+    restart: unless-stopped
     environment:
       DATABASE_URL: ${DATABASE_URL}
