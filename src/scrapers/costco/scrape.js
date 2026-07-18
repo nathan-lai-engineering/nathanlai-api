@@ -1,11 +1,10 @@
 import * as fs from 'fs';
 import * as cheerio from "cheerio";
-import 'dotenv/config';
 import { sql } from 'drizzle-orm';
 import {db, costcoLocationsInCostco, gasPricesInCostco} from '#db'
 
 const WEBSITE_URL = 'https://aruljohn.com/gas/ca';
-const TEST_URL = undefined//'./src/scrapers/test_costco_prices.htm'
+const TEST_URL = undefined//'src/scrapers/costco/test_costco_prices.htm'
 const GAS_MAPPINGS = {
     regular: 0,
     premium: 1,
@@ -25,10 +24,10 @@ function findGas($, row, index){
     return gas;
 }
 
-// update the location name if it changes
+// update the location name if it changes, insert if new
 // we assume location name is likelier to change than address
-async function upsertLocation(locations) {
-    await DB.insert(costcoLocationsInCostco)
+async function upsertLocations(locations) {
+    await db.insert(costcoLocationsInCostco)
         .values(locations)
         .onConflictDoUpdate({
             target: [
@@ -44,12 +43,15 @@ async function upsertLocation(locations) {
         });
 }
 
-async function insertGasPrice(gasPrices){
-    await DB.insert(gasPricesInCostco)
+// insert only into gas price table, no update existing data
+async function insertGasPrices(gasPrices){
+    await db.insert(gasPricesInCostco)
         .values(gasPrices)
         .onConflictDoNothing();
 }
 
+// scrape the original website for data
+// returns two objects: locations and price data in same data structure as table schema
 async function scrapeData(){
     var $ = null;
 
@@ -70,6 +72,8 @@ async function scrapeData(){
         
         // business centers typically don't have gas stations
         if(!locationName.includes("Business Center")){
+
+            // break down the element to pull appropriate data
             let address = $(row).find('.address').html().split("<br>");
             let street = address[0];
 
@@ -86,8 +90,6 @@ async function scrapeData(){
                 zip: zip
             });
 
-            console.log(locationName, street, city, state, zip);
-
             Object.keys(GAS_MAPPINGS).forEach((gasType) => {
                 let price = findGas($, row, GAS_MAPPINGS[gasType]);
                 if(price){
@@ -103,8 +105,14 @@ async function scrapeData(){
         }
     });
 
-    await upsertLocation(locations);
-    await insertGasPrice(prices);
+    return {locations, prices};
 }
 
-await scrapeData();
+// scrape the data, insert into database: ultimately updates tables with fresh data
+async function updateCostcoPrices(){
+    const {locations, prices} = await scrapeData();
+    await upsertLocations(locations);
+    await insertGasPrices(prices);
+}
+
+await updateCostcoPrices();
