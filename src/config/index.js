@@ -11,7 +11,7 @@ function required(name) {
 
 // optional config variable, define a default value
 function optional(name, defaultValue) {
-    const value = proccess.env[name];
+    const value = process.env[name];
     return value ?? defaultValue;
 }
 

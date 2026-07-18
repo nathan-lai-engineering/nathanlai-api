@@ -2,9 +2,7 @@ import * as fs from 'fs';
 import * as cheerio from "cheerio";
 import 'dotenv/config';
 import { sql } from 'drizzle-orm';
-import { drizzle } from 'drizzle-orm/node-postgres';
-import {costcoLocationsInCostco, gasPricesInCostco} from '../../../drizzle/schema.ts'
-import {config} from '../../config/index.js'
+import {db, costcoLocationsInCostco, gasPricesInCostco} from '#db'
 
 const WEBSITE_URL = 'https://aruljohn.com/gas/ca';
 const TEST_URL = undefined//'./src/scrapers/test_costco_prices.htm'
@@ -13,7 +11,6 @@ const GAS_MAPPINGS = {
     premium: 1,
     diesel: 2
 };
-const DB = drizzle(config.databaseUrl);
 
 // given row, and the column index of table
 // return gas price or null if not present
