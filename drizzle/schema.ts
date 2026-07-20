@@ -1,4 +1,4 @@
-import { pgSchema, pgTable, varchar, boolean, timestamp, smallint, date, numeric, foreignKey, primaryKey, unique } from "drizzle-orm/pg-core"
+import { pgSchema, pgTable, varchar, bigserial, timestamp, boolean, smallint, date, text, numeric, index, foreignKey, primaryKey, unique } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
 export const costco = pgSchema("costco");
@@ -32,6 +32,17 @@ export const gasPricesInCostco = costco.table("gas_prices", {
 		foreignColumns: [costcoLocationsInCostco.street, costcoLocationsInCostco.city, costcoLocationsInCostco.state],
 		name: "fk_costco_prices"
 	}).onUpdate("cascade").onDelete("cascade"),
+]);
+
+export const actionLogs = pgTable("action_logs", {
+	id: bigserial({ mode: 'number' }).primaryKey(),
+	actionName: varchar("action_name", { length: 64 }).notNull(),
+	startedAt: timestamp("started_at").default(sql`CURRENT_TIMESTAMP`),
+	finishedAt: timestamp("finished_at"),
+	status: varchar({ length: 16 }),
+	errorMessage: text("error_message"),
+}, (table) => [
+	index("idx_action_logs_lookup").using("btree", table.actionName.asc().nullsLast(), table.startedAt.desc().nullsFirst()),
 ]);
 
 export const apiKeys = pgTable("api_keys", {

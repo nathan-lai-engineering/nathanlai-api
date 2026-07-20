@@ -1,5 +1,8 @@
 {
   "type": "module",
+  "scripts": {
+    "db:pull": "drizzle-kit pull"
+  },
   "dependencies": {
     "cheerio": "^1.2.0",
     "dotenv": "^17.4.2",
