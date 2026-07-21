@@ -1,12 +1,14 @@
 {
   "type": "module",
   "scripts": {
-    "db:pull": "drizzle-kit pull"
+    "db:pull": "drizzle-kit pull",
+    "api:dev": "tsx src/api/server.js"
   },
   "dependencies": {
     "cheerio": "^1.2.0",
     "dotenv": "^17.4.2",
     "drizzle-orm": "^1.0.0-rc.4",
+    "fastify": "^5.10.0",
     "pg": "^8.22.0",
     "tsx": "^4.23.1"
   },
