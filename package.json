@@ -5,6 +5,8 @@
     "api:dev": "tsx src/api/server.js"
   },
   "dependencies": {
+    "@fastify/swagger": "^9.8.1",
+    "@fastify/swagger-ui": "^6.1.0",
     "cheerio": "^1.2.0",
     "dotenv": "^17.4.2",
     "drizzle-orm": "^1.0.0-rc.4",
