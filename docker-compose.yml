@@ -18,6 +18,8 @@ services:
       - "3001"
     networks:
       - nathanlai-shared
+    labels:
+      - "traefik.docker.network=x4pmxgh109vx4prryiikpt4k"
 
 networks:
   nathanlai-shared:
