@@ -5,6 +5,7 @@
     "api:dev": "tsx src/api/server.js"
   },
   "dependencies": {
+    "@fastify/autoload": "^6.5.0",
     "@fastify/swagger": "^9.8.1",
     "@fastify/swagger-ui": "^6.1.0",
     "cheerio": "^1.2.0",
