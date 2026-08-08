@@ -16,6 +16,8 @@ services:
     expose:
       - "3000"
       - "3001"
+    ports:
+      - "127.0.0.1:3001:3001"
     networks:
       - nathanlai-shared
     labels:
