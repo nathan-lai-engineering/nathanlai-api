@@ -7,7 +7,17 @@
 import Fastify from 'fastify';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
-import actionLogsRoutes from './routes/private/actionLogs.js';
+
+import autoload from '@fastify/autoload';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+
+// note, because this is intended to be internal only without public access,
+// you will need to use a tunnel to access this
+// refer to infra for any tunnel scripts
+
+// reconstruction for commonjs convention
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export function buildPrivateApp() {
 
@@ -16,7 +26,7 @@ export function buildPrivateApp() {
   app.register(swagger, {
     openapi: {
       info: {
-        title: 'Nathan Lai private API endpoints',
+        title: 'Nathan Lai private, internal API endpoints',
         version: '1.0.0',
       },
     },
@@ -26,7 +36,10 @@ export function buildPrivateApp() {
     routePrefix: '/docs',
   });
 
-  app.register(actionLogsRoutes);
+  // dynamic loading of of routes/private
+  app.register(autoload, {
+    dir: path.join(__dirname, 'routes', 'private'),
+  });
 
   return app;
 }
