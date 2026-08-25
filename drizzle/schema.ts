@@ -1,4 +1,4 @@
-import { pgSchema, pgTable, varchar, bigserial, timestamp, boolean, smallint, date, text, numeric, index, foreignKey, primaryKey, unique } from "drizzle-orm/pg-core"
+import { pgSchema, pgTable, varchar, bigserial, timestamp, boolean, smallint, date, numeric, text, integer, index, foreignKey, primaryKey, unique } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
 export const costco = pgSchema("costco");
@@ -112,6 +112,88 @@ export const gamesInRiot = riot.table("games", {
 	createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
 	deletedAt: timestamp("deleted_at"),
 });
+
+export const matchParticipantsInRiot = riot.table("match_participants", {
+	matchid: varchar({ length: 32 }).notNull().references(() => matchesInRiot.matchid, { onUpdate: "cascade" } ),
+	puuid: varchar({ length: 78 }).notNull(),
+	game: varchar({ length: 16 }),
+	createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
+	updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`),
+	deletedAt: timestamp("deleted_at"),
+	duration: integer(),
+	rankDelta: smallint("rank_delta"),
+	rankChanged: boolean("rank_changed"),
+}, (table) => [
+	primaryKey({ columns: [table.matchid, table.puuid], name: "pk_match_participants"}),
+	foreignKey({
+		columns: [table.puuid, table.game],
+		foreignColumns: [puuidsInRiot.puuid, puuidsInRiot.game],
+		name: "fk_match_participants_2"
+	}).onUpdate("cascade"),
+]);
+
+export const matchesInRiot = riot.table("matches", {
+	matchid: varchar({ length: 32 }).primaryKey(),
+	game: varchar({ length: 16 }).references(() => gamesInRiot.game, { onUpdate: "cascade" } ),
+	startedAt: timestamp("started_at"),
+	endedAt: timestamp("ended_at"),
+	updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`),
+	isRanked: boolean("is_ranked"),
+	gamemode: varchar({ length: 32 }),
+});
+
+export const participantLeagueStatsInRiot = riot.table("participant_league_stats", {
+	matchid: varchar({ length: 32 }).notNull(),
+	puuid: varchar({ length: 78 }).notNull(),
+	createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
+	updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`),
+	deletedAt: timestamp("deleted_at"),
+	team: varchar({ length: 4 }),
+	won: boolean(),
+	champion: varchar({ length: 32 }),
+	gold: integer(),
+	vision: smallint(),
+	cs: smallint(),
+	damageDealt: integer("damage_dealt"),
+	damageTaken: integer("damage_taken"),
+	damageHealed: integer("damage_healed"),
+	pings: smallint(),
+	kills: smallint(),
+	assists: smallint(),
+	deaths: smallint(),
+	lane: varchar({ length: 8 }),
+	role: varchar({ length: 8 }),
+	surrendered: boolean(),
+}, (table) => [
+	primaryKey({ columns: [table.matchid, table.puuid], name: "pk_participant_league_stats"}),
+	foreignKey({
+		columns: [table.matchid, table.puuid],
+		foreignColumns: [matchParticipantsInRiot.matchid, matchParticipantsInRiot.puuid],
+		name: "fk_participant_league_status"
+	}).onUpdate("cascade"),
+]);
+
+export const participantTftStatsInRiot = riot.table("participant_tft_stats", {
+	matchid: varchar({ length: 32 }).notNull(),
+	puuid: varchar({ length: 78 }).notNull(),
+	createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
+	updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`),
+	deletedAt: timestamp("deleted_at"),
+	placement: smallint(),
+	lastRound: varchar("last_round", { length: 3 }),
+	level: smallint(),
+	gold: smallint(),
+	damageDealt: smallint("damage_dealt"),
+	boardGold: smallint("board_gold"),
+	boardComp: varchar("board_comp", { length: 32 }),
+}, (table) => [
+	primaryKey({ columns: [table.matchid, table.puuid], name: "pk_participant_tft_stats"}),
+	foreignKey({
+		columns: [table.matchid, table.puuid],
+		foreignColumns: [matchParticipantsInRiot.matchid, matchParticipantsInRiot.puuid],
+		name: "fk_participant_tft_stats"
+	}).onUpdate("cascade"),
+]);
 
 export const puuidsInRiot = riot.table("puuids", {
 	riotId: varchar("riot_id", { length: 16 }).notNull(),
