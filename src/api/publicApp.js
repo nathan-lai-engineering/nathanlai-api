@@ -8,11 +8,9 @@ import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import helmet from '@fastify/helmet';
 import rateLimit from '@fastify/rate-limit';
+import { config } from '#config';
 
-// absolute ceiling across ALL clients combined, on top of per-IP limiting below
-// protects against botnets that spread requests across many IPs to dodge per-IP caps
-const GLOBAL_MAX_REQUESTS = 2000;
-const GLOBAL_WINDOW_MS = 60_000;
+
 
 export function buildPublicApp(){
     const app = Fastify({ logger: true });
@@ -24,12 +22,13 @@ export function buildPublicApp(){
         timeWindow: '1 minute',
     });
 
+    // absolute ceiling across ALL clients combined, on top of per-IP limiting below
+    // protects against botnets that spread requests across many IPs to dodge per-IP caps
     let globalCount = 0;
-    setInterval(() => { globalCount = 0; }, GLOBAL_WINDOW_MS).unref();
-
+    setInterval(() => { globalCount = 0; }, config.apiGlobalMaxWindow).unref();
     app.addHook('onRequest', (_request, reply, done) => {
         globalCount++;
-        if (globalCount > GLOBAL_MAX_REQUESTS) {
+        if (globalCount > config.apiGlobalMaxRequests) {
             reply.code(503).send({ error: 'Server is under heavy load, please wait a full minute and try again.' });
             return;
         }

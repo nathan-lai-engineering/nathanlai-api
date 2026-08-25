@@ -1,6 +1,7 @@
 import 'dotenv/config';
 
 // all configuration will be determined through coolify environment variables
+// this is determined at runtime once, so will require a restart
 
 // required config variable
 function required(name) {
@@ -17,4 +18,7 @@ function optional(name, defaultValue) {
 
 export const config = {
   databaseUrl: required('DATABASE_URL'),
+  riotScrapeInterval: optional('RIOT_SCRAPE_INTERVAL', 300000),
+  apiGlobalMaxRequests: optional('API_GLOBAL_MAX_REQUESTS', 1000),
+  apiGlobalMaxWindow: optional('API_GLOBAL_MAX_WINDOW', 60000)
 };
