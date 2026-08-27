@@ -99,7 +99,8 @@ export function buildPublicApp(){
 
     // dynamic loading of routes/public
     app.register(autoload, {
-        dir: path.join(__dirname, 'routes', 'public')
+        dir: path.join(__dirname, 'routes', 'public'),
+        routeParams: true
     });
 
     return app;
