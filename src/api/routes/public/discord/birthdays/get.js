@@ -7,25 +7,26 @@ const getSchema = {
 };
 
 export default async function (fastify) {
-  
-  // full list of all account birthdays
-  const birthdayResults = await db.select({
-    discordId: discordAccounts.discordId,
-    birthMonth: discordAccounts.birthMonth,
-    birthDate: discordAccounts.birthDay
-  })
-  .from(discordAccounts)
+  fastify.get('/', { schema: getSchema }, async (request, reply) => {
+    // full list of all account birthdays
+    const birthdayResults = await db.select({
+      discordId: discordAccounts.discordId,
+      birthMonth: discordAccounts.birthMonth,
+      birthDate: discordAccounts.birthDay
+    })
+    .from(discordAccounts)
 
-  // no result
-  if(!birthdayResults){
-    return reply.callNotFound();
-  }
+    // no result
+    if(!birthdayResults){
+      return reply.callNotFound();
+    }
 
-  // reformat to map by discord id
-  const discordBirthdays = {};
-  birthdayResults.forEach((row) => {
-      discordBirthdays[row.discordId] = {month: row.birthMonth, date: row.birthDate};
+    // reformat to map by discord id
+    const discordBirthdays = {};
+    birthdayResults.forEach((row) => {
+        discordBirthdays[row.discordId] = {month: row.birthMonth, date: row.birthDate};
+    });
+
+    return discordBirthdays;
   });
-
-  return discordBirthdays;
 }
