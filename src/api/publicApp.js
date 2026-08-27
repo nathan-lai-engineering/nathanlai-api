@@ -48,5 +48,10 @@ export function buildPublicApp(){
         routePrefix: '/docs',
     });
 
+    // dynamic loading of of routes/private
+    app.register(autoload, {
+    dir: path.join(__dirname, 'routes', 'public'),
+    });
+
     return app;
 }
