@@ -51,6 +51,11 @@ export function buildPublicApp(){
             title: 'Nathan Lai public API endpoints',
             version: '1.0.0',
         },
+        tags: [
+            {name: 'discord', description: 'For usage by personal discord bot'},
+            {name: 'riot', description: 'Riot Games related usage'},
+            {name: 'logs', description: 'All logs for API and other automations'},
+        ],
         components: {
             securitySchemes: {
                 apiKeyAuth: {
@@ -63,7 +68,7 @@ export function buildPublicApp(){
         },
     });
 
-        app.register(swaggerUi, {
+    app.register(swaggerUi, {
         routePrefix: '/docs',
     });
 

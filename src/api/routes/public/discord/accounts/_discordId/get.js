@@ -2,6 +2,7 @@ import { db, discordAccounts, riotAccountsInRiot, puuidsInRiot } from '#db';
 import { eq, and} from 'drizzle-orm';
 
 const getSchema = {
+  tags: ['discord'],
   security: [{ apiKeyAuth: [] }],
   params: {
     type: 'object',
