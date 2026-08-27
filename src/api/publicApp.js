@@ -12,6 +12,12 @@ import { config } from '#config';
 import autoload from '@fastify/autoload';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import crypto from 'node:crypto';
+import { db, apiClientKeys } from '#db';
+import { and, eq, isNull, sql } from 'drizzle-orm';
+
+const gatedRoutes = ['/discord', '/logs'];
+const gatedMethods = new Set(['PUT', 'DELETE']);
 
 // reconstruction for commonjs convention
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -61,11 +67,39 @@ export function buildPublicApp(){
         routePrefix: '/docs',
     });
 
+    app.addHook('onRequest', async (request, reply) => {
+        const needsAuth = gatedMethods.has(request.method) || gatedRoutes.some((prefix) => request.url.startsWith(prefix));
+        if(!needsAuth) return;
+
+        // hash key if exists
+        const key = request.headers['x-api-key'];
+        if (!key) {
+            reply.code(401).send({ error: 'Missing x-api-key' });
+            return;
+        }
+        const hash = crypto.createHash('sha256').update(key).digest('hex');
+
+        // check if api key hash exists in db and is still valid
+        const [client] = await db.select({ id: apiClientKeys.id })
+        .from(apiClientKeys)
+        .where(and(eq(apiClientKeys.apiKeyHash, hash), isNull(apiClientKeys.deletedAt)))
+        .limit(1);
+
+        // invalid hash
+        if (!client) {
+        reply.code(401).send({ error: 'Invalid API key' });
+        return;
+        }
+
+        // update last used 
+        await db.update(apiClientKeys)
+            .set({lastUsedAt: sql`now()`})
+            .where(eq(apiClientKeys.apiKeyHash, hash))
+        });
+
     // dynamic loading of routes/public
     app.register(autoload, {
-        dir: path.join(__dirname, 'routes', 'public'),
-        autoHooks: true,
-        cascadeHooks: true
+        dir: path.join(__dirname, 'routes', 'public')
     });
 
     return app;

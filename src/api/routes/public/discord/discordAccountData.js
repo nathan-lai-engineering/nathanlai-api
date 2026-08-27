@@ -19,6 +19,8 @@ export default async function discordAccountRoutes(fastify) {
     // pull basic discord account information saved in db
     const [discordAccountResult] = await db.select({
             discordId: discordAccounts.discordId,
+            birthMonth: discordAccounts.birthMonth,
+            birthDate: discordAccounts.birthDay,
             admin: discordAccounts.admin,
             riotId: riotAccountsInRiot.riotId,
             riotTag: riotAccountsInRiot.riotTag
