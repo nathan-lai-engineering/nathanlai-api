@@ -2,6 +2,7 @@ import { db, discordAccounts, riotAccountsInRiot, puuidsInRiot } from '#db';
 import { eq, and} from 'drizzle-orm';
 
 const getDiscordAccountSchema = {
+  security: [{ apiKeyAuth: [] }],
   querystring: {
     type: 'object',
     properties: {
@@ -12,7 +13,7 @@ const getDiscordAccountSchema = {
 };
 
 export default async function discordAccountRoutes(fastify) {
-  fastify.get('/discord', { schema: getDiscordAccountSchema }, async (request, reply) => {
+  fastify.get('/', { schema: getDiscordAccountSchema }, async (request, reply) => {
     const { discordId } = request.query;
 
     // pull basic discord account information saved in db

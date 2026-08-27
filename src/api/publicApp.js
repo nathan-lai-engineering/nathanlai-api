@@ -45,6 +45,15 @@ export function buildPublicApp(){
             title: 'Nathan Lai public API endpoints',
             version: '1.0.0',
         },
+        components: {
+            securitySchemes: {
+                apiKeyAuth: {
+                    type: 'apiKey',
+                    in: 'header',
+                    name: 'x-api-key',
+                },
+            },
+        },
         },
     });
 
@@ -54,7 +63,9 @@ export function buildPublicApp(){
 
     // dynamic loading of routes/public
     app.register(autoload, {
-    dir: path.join(__dirname, 'routes', 'public'),
+        dir: path.join(__dirname, 'routes', 'public'),
+        autoHooks: true,
+        cascadeHooks: true
     });
 
     return app;

@@ -1,4 +1,4 @@
-import { pgSchema, pgTable, varchar, bigserial, timestamp, boolean, smallint, date, numeric, text, integer, index, foreignKey, primaryKey, unique } from "drizzle-orm/pg-core"
+import { pgSchema, pgTable, varchar, serial, bigserial, boolean, timestamp, text, smallint, date, numeric, integer, index, foreignKey, primaryKey, unique } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
 export const costco = pgSchema("costco");
@@ -44,6 +44,16 @@ export const actionLogs = pgTable("action_logs", {
 }, (table) => [
 	index("idx_action_logs_lookup").using("btree", table.actionName.asc().nullsLast(), table.startedAt.desc().nullsFirst()),
 ]);
+
+export const apiClientKeys = pgTable("api_client_keys", {
+	id: serial().primaryKey(),
+	clientName: text("client_name"),
+	apiKeyHash: text("api_key_hash"),
+	createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
+	deletedAt: timestamp("deleted_at"),
+	lastUsedAt: timestamp("last_used_at"),
+}, (table) => [
+	unique("api_client_keys_client_name_key").on(table.clientName),]);
 
 export const apiKeys = pgTable("api_keys", {
 	source: varchar({ length: 64 }).primaryKey(),
@@ -133,14 +143,16 @@ export const matchParticipantsInRiot = riot.table("match_participants", {
 ]);
 
 export const matchesInRiot = riot.table("matches", {
-	matchid: varchar({ length: 32 }).primaryKey(),
+	matchid: varchar({ length: 32 }).notNull(),
 	game: varchar({ length: 16 }).references(() => gamesInRiot.game, { onUpdate: "cascade" } ),
 	startedAt: timestamp("started_at"),
 	endedAt: timestamp("ended_at"),
 	updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`),
 	isRanked: boolean("is_ranked"),
 	gamemode: varchar({ length: 32 }),
-});
+}, (table) => [
+	primaryKey({ columns: [table.matchid], name: "pk_matches"}),
+]);
 
 export const participantLeagueStatsInRiot = riot.table("participant_league_stats", {
 	matchid: varchar({ length: 32 }).notNull(),
