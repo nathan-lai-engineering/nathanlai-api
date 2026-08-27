@@ -9,8 +9,12 @@ import swaggerUi from '@fastify/swagger-ui';
 import helmet from '@fastify/helmet';
 import rateLimit from '@fastify/rate-limit';
 import { config } from '#config';
+import autoload from '@fastify/autoload';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-
+// reconstruction for commonjs convention
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export function buildPublicApp(){
     const app = Fastify({ logger: true });
@@ -48,7 +52,7 @@ export function buildPublicApp(){
         routePrefix: '/docs',
     });
 
-    // dynamic loading of of routes/private
+    // dynamic loading of routes/public
     app.register(autoload, {
     dir: path.join(__dirname, 'routes', 'public'),
     });
