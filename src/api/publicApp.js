@@ -52,7 +52,9 @@ export function buildPublicApp(){
             version: '1.0.0',
         },
         tags: [
-            {name: 'discord', description: 'For usage by personal discord bot'},
+            {name: 'discord-accounts', description: 'For usage by personal discord bot. Requires api key.'},
+            {name: 'discord-guilds', description: 'For usage by personal discord bot. Requires api key.'},
+            {name: 'discord-channels', description: 'For usage by personal discord bot. Requires api key.'},
             {name: 'riot', description: 'Riot Games related usage'},
             {name: 'logs', description: 'All logs for API and other automations'},
         ],
