@@ -45,30 +45,33 @@ export const actionLogs = pgTable("action_logs", {
 	index("idx_action_logs_lookup").using("btree", table.actionName.asc().nullsLast(), table.startedAt.desc().nullsFirst()),
 ]);
 
-export const apiClientKeys = pgTable("api_client_keys", {
-	id: serial().primaryKey(),
+export const apiClients = pgTable("api_clients", {
+	id: serial().notNull(),
 	clientName: text("client_name"),
 	apiKeyHash: text("api_key_hash"),
 	createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
 	deletedAt: timestamp("deleted_at"),
 	lastUsedAt: timestamp("last_used_at"),
 }, (table) => [
+	primaryKey({ columns: [table.id], name: "api_client_keys_pkey"}),
 	unique("api_client_keys_client_name_key").on(table.clientName),]);
-
-export const apiKeys = pgTable("api_keys", {
-	source: varchar({ length: 64 }).primaryKey(),
-	keyString: varchar("key_string", { length: 128 }),
-});
 
 export const discordAccounts = pgTable("discord_accounts", {
 	discordId: varchar("discord_id", { length: 19 }).primaryKey(),
-	admin: boolean(),
+	admin: boolean().default(false),
 	summonerName: varchar("summoner_name", { length: 32 }),
 	birthMonth: smallint("birth_month"),
 	birthDay: smallint("birth_day"),
 	createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
 	updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`),
 });
+
+export const externalServiceKeys = pgTable("external_service_keys", {
+	source: varchar({ length: 64 }).notNull(),
+	keyString: varchar("key_string", { length: 128 }),
+}, (table) => [
+	primaryKey({ columns: [table.source], name: "api_keys_pkey"}),
+]);
 
 export const guilds = pgTable("guilds", {
 	guildId: varchar("guild_id", { length: 19 }).primaryKey(),
@@ -114,7 +117,7 @@ export const outros = pgTable("outros", {
 	startTime: smallint("start_time").default(0),
 	duration: smallint().default(0),
 	createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
-	updatedAt: timestamp("updated_at"),
+	updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`),
 });
 
 export const gamesInRiot = riot.table("games", {
@@ -126,7 +129,7 @@ export const gamesInRiot = riot.table("games", {
 export const matchParticipantsInRiot = riot.table("match_participants", {
 	matchid: varchar({ length: 32 }).notNull().references(() => matchesInRiot.matchid, { onUpdate: "cascade" } ),
 	puuid: varchar({ length: 78 }).notNull(),
-	game: varchar({ length: 16 }),
+	game: varchar({ length: 16 }).notNull(),
 	createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
 	updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`),
 	deletedAt: timestamp("deleted_at"),
@@ -144,7 +147,7 @@ export const matchParticipantsInRiot = riot.table("match_participants", {
 
 export const matchesInRiot = riot.table("matches", {
 	matchid: varchar({ length: 32 }).notNull(),
-	game: varchar({ length: 16 }).references(() => gamesInRiot.game, { onUpdate: "cascade" } ),
+	game: varchar({ length: 16 }).notNull().references(() => gamesInRiot.game, { onUpdate: "cascade" } ),
 	startedAt: timestamp("started_at"),
 	endedAt: timestamp("ended_at"),
 	updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`),
@@ -211,18 +214,18 @@ export const puuidsInRiot = riot.table("puuids", {
 	riotId: varchar("riot_id", { length: 16 }).notNull(),
 	riotTag: varchar("riot_tag", { length: 5 }).notNull(),
 	game: varchar({ length: 16 }).notNull().references(() => gamesInRiot.game, { onUpdate: "cascade" } ),
-	puuid: varchar({ length: 78 }),
+	puuid: varchar({ length: 78 }).notNull(),
 	createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
 	updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`),
 	deletedAt: timestamp("deleted_at"),
 }, (table) => [
-	primaryKey({ columns: [table.riotId, table.riotTag, table.game], name: "pk_puuids"}),
+	primaryKey({ columns: [table.game, table.puuid], name: "pk_puuids"}),
 	foreignKey({
 		columns: [table.riotId, table.riotTag],
 		foreignColumns: [riotAccountsInRiot.riotId, riotAccountsInRiot.riotTag],
 		name: "fk_puuids_1"
 	}).onUpdate("cascade"),
-	unique("ck_puuids").on(table.game, table.puuid),]);
+]);
 
 export const ranksInRiot = riot.table("ranks", {
 	gamemode: varchar({ length: 20 }).notNull(),

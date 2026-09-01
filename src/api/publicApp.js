@@ -13,7 +13,7 @@ import autoload from '@fastify/autoload';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import crypto from 'node:crypto';
-import { db, apiClientKeys } from '#db';
+import { db, apiClients } from '#db';
 import { and, eq, isNull, sql } from 'drizzle-orm';
 
 const gatedRoutes = ['/discord', '/logs'];
@@ -87,9 +87,9 @@ export function buildPublicApp(){
         const hash = crypto.createHash('sha256').update(key).digest('hex');
 
         // check if api key hash exists in db and is still valid
-        const [client] = await db.select({ id: apiClientKeys.id })
-        .from(apiClientKeys)
-        .where(and(eq(apiClientKeys.apiKeyHash, hash), isNull(apiClientKeys.deletedAt)))
+        const [client] = await db.select({ id: apiClients.id })
+        .from(apiClients)
+        .where(and(eq(apiClients.apiKeyHash, hash), isNull(apiClients.deletedAt)))
         .limit(1);
 
         // invalid hash
@@ -99,9 +99,9 @@ export function buildPublicApp(){
         }
 
         // update last used 
-        await db.update(apiClientKeys)
+        await db.update(apiClients)
             .set({lastUsedAt: sql`now()`})
-            .where(eq(apiClientKeys.apiKeyHash, hash))
+            .where(eq(apiClients.apiKeyHash, hash))
         });
 
     // dynamic loading of routes/public
