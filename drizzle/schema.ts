@@ -1,4 +1,4 @@
-import { pgSchema, pgTable, varchar, serial, bigserial, boolean, timestamp, text, smallint, date, numeric, integer, index, foreignKey, primaryKey, unique } from "drizzle-orm/pg-core"
+import { pgSchema, pgTable, varchar, serial, bigserial, timestamp, boolean, text, smallint, date, numeric, integer, index, foreignKey, primaryKey, unique } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
 export const costco = pgSchema("costco");
@@ -59,7 +59,6 @@ export const apiClients = pgTable("api_clients", {
 export const discordAccounts = pgTable("discord_accounts", {
 	discordId: varchar("discord_id", { length: 19 }).primaryKey(),
 	admin: boolean().default(false),
-	summonerName: varchar("summoner_name", { length: 32 }),
 	birthMonth: smallint("birth_month"),
 	birthDay: smallint("birth_day"),
 	createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
