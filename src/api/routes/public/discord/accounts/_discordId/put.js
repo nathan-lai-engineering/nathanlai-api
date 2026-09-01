@@ -17,8 +17,8 @@ const getSchema = {
   body: {
     type: 'object',
     properties: {
-      birthMonth: { type: 'integer', description: 'The month (1-12) user was born', minimum: 1, maximum: 12, example: 6 },
-      birthDay: { type: 'integer', description: 'The day of the month (1-31) user was born', minimum: 1, maximum: 31, example: 15 }
+      birthMonth: { type: 'integer', description: 'The month (1-12) user was born', minimum: 1, maximum: 12, examples: [6] },
+      birthDay: { type: 'integer', description: 'The day of the month (1-31) user was born', minimum: 1, maximum: 31, examples: [15] }
     },
     required: [],
     minProperties: 1,
