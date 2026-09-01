@@ -16,9 +16,16 @@ export const relations = defineRelations(schema, (r) => ({
 			from: r.guilds.guildId.through(r.guildChannels.guildId),
 			to: r.channelTypes.channelType.through(r.guildChannels.channelType)
 		}),
+		modules: r.many.modules(),
 	},
 	channelTypes: {
 		guilds: r.many.guilds(),
+	},
+	modules: {
+		guilds: r.many.guilds({
+			from: r.modules.name.through(r.guildModules.moduleName),
+			to: r.guilds.guildId.through(r.guildModules.guildId)
+		}),
 	},
 	guildChannels: {
 		discordAccounts: r.many.discordAccounts({

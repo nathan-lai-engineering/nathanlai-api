@@ -1,4 +1,4 @@
-import { pgSchema, pgTable, bigserial, varchar, serial, timestamp, boolean, text, smallint, date, numeric, integer, index, foreignKey, primaryKey, unique } from "drizzle-orm/pg-core"
+import { pgSchema, pgTable, serial, varchar, bigserial, boolean, timestamp, text, smallint, date, numeric, integer, index, foreignKey, primaryKey, unique } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
 export const costco = pgSchema("costco");
@@ -71,8 +71,8 @@ export const discordAccounts = pgTable("discord_accounts", {
 	admin: boolean().default(false),
 	birthMonth: smallint("birth_month"),
 	birthDay: smallint("birth_day"),
-	createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
-	updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`),
+	createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
+	updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
 });
 
 export const externalServiceKeys = pgTable("external_service_keys", {
@@ -93,11 +93,28 @@ export const guildChannels = pgTable("guild_channels", {
 	primaryKey({ columns: [table.guildId, table.channelType], name: "pk_guild_channels"}),
 ]);
 
+export const guildModules = pgTable("guild_modules", {
+	moduleName: varchar("module_name", { length: 32 }).notNull().references(() => modules.name),
+	guildId: varchar("guild_id", { length: 19 }).notNull().references(() => guilds.guildId),
+	createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
+	updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
+	deletedAt: timestamp("deleted_at"),
+}, (table) => [
+	primaryKey({ columns: [table.moduleName, table.guildId], name: "pk_guild_modules"}),
+]);
+
 export const guilds = pgTable("guilds", {
 	guildId: varchar("guild_id", { length: 19 }).primaryKey(),
 	createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
 	deletedAt: timestamp("deleted_at"),
 	updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
+});
+
+export const modules = pgTable("modules", {
+	name: varchar({ length: 32 }).primaryKey(),
+	createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
+	updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
+	deletedAt: timestamp("deleted_at"),
 });
 
 export const notificationMembers = pgTable("notification_members", {
