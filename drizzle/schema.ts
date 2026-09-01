@@ -1,4 +1,4 @@
-import { pgSchema, pgTable, varchar, serial, bigserial, timestamp, boolean, text, smallint, date, numeric, integer, index, foreignKey, primaryKey, unique } from "drizzle-orm/pg-core"
+import { pgSchema, pgTable, bigserial, varchar, serial, timestamp, boolean, text, smallint, date, numeric, integer, index, foreignKey, primaryKey, unique } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
 export const costco = pgSchema("costco");
@@ -56,6 +56,16 @@ export const apiClients = pgTable("api_clients", {
 	primaryKey({ columns: [table.id], name: "api_client_keys_pkey"}),
 	unique("api_client_keys_client_name_key").on(table.clientName),]);
 
+export const channelTypes = pgTable("channel_types", {
+	channelType: varchar("channel_type", { length: 32 }).notNull(),
+	createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
+	deletedAt: timestamp("deleted_at"),
+	updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
+	subscribable: boolean().default(false).notNull(),
+}, (table) => [
+	primaryKey({ columns: [table.channelType], name: "guild_types_pkey"}),
+]);
+
 export const discordAccounts = pgTable("discord_accounts", {
 	discordId: varchar("discord_id", { length: 19 }).primaryKey(),
 	admin: boolean().default(false),
@@ -72,43 +82,39 @@ export const externalServiceKeys = pgTable("external_service_keys", {
 	primaryKey({ columns: [table.source], name: "api_keys_pkey"}),
 ]);
 
-export const guilds = pgTable("guilds", {
-	guildId: varchar("guild_id", { length: 19 }).primaryKey(),
-	createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
-	deletedAt: timestamp("deleted_at"),
-});
-
-export const notificationChannels = pgTable("notification_channels", {
+export const guildChannels = pgTable("guild_channels", {
 	guildId: varchar("guild_id", { length: 19 }).notNull().references(() => guilds.guildId, { onUpdate: "cascade" } ),
-	notificationType: varchar("notification_type", { length: 32 }).notNull().references(() => notificationTypes.notificationType, { onUpdate: "cascade" } ),
+	channelType: varchar("channel_type", { length: 32 }).notNull().references(() => channelTypes.channelType, { onUpdate: "cascade" } ),
 	channelId: varchar("channel_id", { length: 19 }),
 	createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
 	updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`),
 	deletedAt: timestamp("deleted_at"),
 }, (table) => [
-	primaryKey({ columns: [table.guildId, table.notificationType], name: "pk_notification_channels"}),
+	primaryKey({ columns: [table.guildId, table.channelType], name: "pk_guild_channels"}),
 ]);
+
+export const guilds = pgTable("guilds", {
+	guildId: varchar("guild_id", { length: 19 }).primaryKey(),
+	createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
+	deletedAt: timestamp("deleted_at"),
+	updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
+});
 
 export const notificationMembers = pgTable("notification_members", {
 	guildId: varchar("guild_id", { length: 19 }).notNull(),
-	notificationType: varchar("notification_type", { length: 32 }).notNull(),
+	channelType: varchar("channel_type", { length: 32 }).notNull(),
 	discordId: varchar("discord_id", { length: 19 }).notNull().references(() => discordAccounts.discordId, { onUpdate: "cascade" } ),
 	createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
 	deletedAt: timestamp("deleted_at"),
+	updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
 }, (table) => [
-	primaryKey({ columns: [table.guildId, table.notificationType, table.discordId], name: "pk_notification_members"}),
+	primaryKey({ columns: [table.guildId, table.channelType, table.discordId], name: "pk_notification_members"}),
 	foreignKey({
-		columns: [table.guildId, table.notificationType],
-		foreignColumns: [notificationChannels.guildId, notificationChannels.notificationType],
+		columns: [table.guildId, table.channelType],
+		foreignColumns: [guildChannels.guildId, guildChannels.channelType],
 		name: "fk_notification_members_1"
 	}).onUpdate("cascade"),
 ]);
-
-export const notificationTypes = pgTable("notification_types", {
-	notificationType: varchar("notification_type", { length: 32 }).primaryKey(),
-	createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
-	deletedAt: timestamp("deleted_at"),
-});
 
 export const outros = pgTable("outros", {
 	discordId: varchar("discord_id", { length: 19 }).primaryKey().references(() => discordAccounts.discordId, { onUpdate: "cascade" } ),
@@ -117,6 +123,7 @@ export const outros = pgTable("outros", {
 	duration: smallint().default(0),
 	createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
 	updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`),
+	deletedAt: timestamp("deleted_at"),
 });
 
 export const gamesInRiot = riot.table("games", {

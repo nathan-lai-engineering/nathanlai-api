@@ -12,22 +12,22 @@ export const relations = defineRelations(schema, (r) => ({
 		gasPricesInCostcos: r.many.gasPricesInCostco(),
 	},
 	guilds: {
-		notificationTypes: r.many.notificationTypes({
-			from: r.guilds.guildId.through(r.notificationChannels.guildId),
-			to: r.notificationTypes.notificationType.through(r.notificationChannels.notificationType)
+		channelTypes: r.many.channelTypes({
+			from: r.guilds.guildId.through(r.guildChannels.guildId),
+			to: r.channelTypes.channelType.through(r.guildChannels.channelType)
 		}),
 	},
-	notificationTypes: {
+	channelTypes: {
 		guilds: r.many.guilds(),
 	},
-	notificationChannels: {
+	guildChannels: {
 		discordAccounts: r.many.discordAccounts({
-			from: [r.notificationChannels.guildId.through(notificationMembers.guildId), r.notificationChannels.notificationType.through(notificationMembers.notificationType)],
+			from: [r.guildChannels.guildId.through(notificationMembers.guildId), r.guildChannels.channelType.through(notificationMembers.channelType)],
 			to: r.discordAccounts.discordId.through(r.notificationMembers.discordId)
 		}),
 	},
 	discordAccounts: {
-		notificationChannels: r.many.notificationChannels(),
+		guildChannels: r.many.guildChannels(),
 		outros: r.many.outros(),
 		riotAccountsInRiots: r.many.riotAccountsInRiot(),
 	},
