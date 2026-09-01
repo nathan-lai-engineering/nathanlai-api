@@ -29,7 +29,7 @@ export const relations = defineRelations(schema, (r) => ({
 	},
 	guildChannels: {
 		discordAccounts: r.many.discordAccounts({
-			from: [r.guildChannels.guildId.through(notificationMembers.guildId), r.guildChannels.channelType.through(notificationMembers.channelType)],
+			from: [r.guildChannels.guildId.through(r.notificationMembers.guildId), r.guildChannels.channelType.through(r.notificationMembers.channelType)],
 			to: r.discordAccounts.discordId.through(r.notificationMembers.discordId)
 		}),
 	},
@@ -47,7 +47,7 @@ export const relations = defineRelations(schema, (r) => ({
 	matchesInRiot: {
 		puuidsInRiots: r.many.puuidsInRiot({
 			from: r.matchesInRiot.matchid.through(r.matchParticipantsInRiot.matchid),
-			to: [r.puuidsInRiot.puuid.through(matchParticipantsInRiot.puuid), r.puuidsInRiot.game.through(matchParticipantsInRiot.game)]
+			to: [r.puuidsInRiot.puuid.through(r.matchParticipantsInRiot.puuid), r.puuidsInRiot.game.through(r.matchParticipantsInRiot.game)]
 		}),
 		gamesInRiot: r.one.gamesInRiot({
 			from: r.matchesInRiot.game,
@@ -80,7 +80,7 @@ export const relations = defineRelations(schema, (r) => ({
 	},
 	riotAccountsInRiot: {
 		gamesInRiots: r.many.gamesInRiot({
-			from: [r.riotAccountsInRiot.riotId.through(puuidsInRiot.riotId), r.riotAccountsInRiot.riotTag.through(puuidsInRiot.riotTag)],
+			from: [r.riotAccountsInRiot.riotId.through(r.puuidsInRiot.riotId), r.riotAccountsInRiot.riotTag.through(r.puuidsInRiot.riotTag)],
 			to: r.gamesInRiot.game.through(r.puuidsInRiot.game)
 		}),
 		discordAccount: r.one.discordAccounts({

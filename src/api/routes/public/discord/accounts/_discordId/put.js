@@ -77,7 +77,7 @@ export default async function (fastify) {
     // updates birthmonth and birthday if present
     const [insertedAccount] = await db.insert(discordAccounts)
       .values({
-        discordId,
+        discordId: discordId,
         birthMonth: birthMonth,
         birthDay: birthDay,
       })
